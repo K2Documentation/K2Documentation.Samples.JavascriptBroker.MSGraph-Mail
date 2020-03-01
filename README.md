@@ -1,18 +1,17 @@
-# K2 MS Graph - Mail Broker Sample
+# K2 TypeScript Broker Template
 
-This is demonstrates a simple broker made using the K2 TypeScript Broker
-Template that accesses the message object in the MS Graph API.
+This is demonstrates best-practices for developing a K2 Broker using TypeScript.
 
 # Features
 
   - Full object model intellisense for making development easier
-  - Sample broker code that accesses MS Graph.
+  - Sample broker code that accesses jsonplaceholder.
   - Sample unit tests with mocks and code coverage.
   - RollupJS configuration for TypeScript.
 
 ## Getting Started
 
-This sample requires [Node.js](https://nodejs.org/) v12.14.1+ to run.
+This template requires [Node.js](https://nodejs.org/) v12.14.1+ to run.
 
 Install the dependencies and devDependencies:
 
