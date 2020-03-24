@@ -48,8 +48,7 @@ ondescribe = async function (): Promise<void> {
                 }
             }
         }
-    }
-    )
+    })
 };
 
 onexecute = async function (objectName, methodName, parameters, properties): Promise<void> {
@@ -109,7 +108,6 @@ function onexecuteMessageList(parameters: SingleRecord, properties: SingleRecord
                 if (xhr.readyState !== 4) return;
                 if (xhr.status !== 200) throw new Error("Failed with status " + xhr.status);
 
-                //console.log(xhr.responseText);
                 var obj = JSON.parse(xhr.responseText);
                 postResult(obj.map(x => {
                     return {
@@ -127,7 +125,6 @@ function onexecuteMessageList(parameters: SingleRecord, properties: SingleRecord
 
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
         var url = "https://graph.microsoft.com/v1.0/users/" + encodeURIComponent(parameters["userPrincipalName"]) + "/mailfolders%28%27Inbox%27%29/messages";
-        //console.log(url);
         xhr.open("GET", url);
 
         // Use Access Tokens
