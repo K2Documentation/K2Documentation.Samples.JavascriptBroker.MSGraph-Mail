@@ -54,15 +54,15 @@ ondescribe = async function (): Promise<void> {
 
 onexecute = async function (objectName, methodName, parameters, properties): Promise<void> {
     switch (objectName) {
-        case "message": onexecuteMessage(methodName, parameters, properties); break;
+        case "message": await onexecuteMessage(methodName, parameters, properties); break;
         default: throw new Error("The object " + objectName + " is not supported.");
     }
 }
 
 async function onexecuteMessage(methodName: string, parameters: SingleRecord, properties: SingleRecord): Promise<void> {
     switch (methodName) {
-        case "get": onexecuteMessageGet(parameters, properties); break;
-        case "list": onexecuteMessageList(parameters, properties); break;
+        case "get": await onexecuteMessageGet(parameters, properties); break;
+        case "list": await onexecuteMessageList(parameters, properties); break;
         default: throw new Error("The method " + methodName + " is not supported.");
     }
 }
@@ -75,8 +75,6 @@ function onexecuteMessageGet(parameters: SingleRecord, properties: SingleRecord)
             try {
                 if (xhr.readyState !== 4) return;
                 if (xhr.status !== 200) throw new Error("Failed with status " + xhr.status);
-
-                //console.log(xhr.responseText);
                 var obj = JSON.parse(xhr.responseText);
                 postResult({
                     "id": obj.id,
@@ -91,7 +89,6 @@ function onexecuteMessageGet(parameters: SingleRecord, properties: SingleRecord)
         };
 
         var url = "https://graph.microsoft.com/v1.0/users/" + encodeURIComponent(parameters["userPrincipalName"]) + "/mailfolders%28%27Inbox%27%29/messages/" + encodeURIComponent(parameters["id"]);
-        //console.log(url);
         xhr.open("GET", url);
 
         // Use Service Instance OAuth configuration
