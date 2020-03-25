@@ -1,3 +1,6 @@
+//This placeholder test.ts file is a subset from the K2 Broker Template project 
+//(https://github.com/K2Documentation/K2Documentation.Samples.JavascriptBroker.Template/blob/master/src/test.ts)
+//and is provided here just for reference. It must be modified with the proper objects and methods.
 import test from 'ava';
 import '@k2oss/k2-broker-core/test-framework';
 import './index';
