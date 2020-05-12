@@ -69,8 +69,9 @@ test('execute fails with the wrong parameters', async t => {
     let error = await t.throwsAsync(Promise.resolve<void>(onexecute({
         objectName: 'test1',
         methodName: 'unused',
+        parameters: {},
         properties: {},
-        parameters: {}
+        schema: {}
     })));
     
     t.deepEqual(error.message, 'The object test1 is not supported.');
@@ -78,8 +79,9 @@ test('execute fails with the wrong parameters', async t => {
     error = await t.throwsAsync(Promise.resolve<void>(onexecute({
         objectName: 'todo',
         methodName: 'test2',
+        parameters: {},
         properties: {},
-        parameters: {}
+        schema: {}
     })));
     
     t.deepEqual(error.message, 'The method test2 is not supported.');
@@ -97,16 +99,17 @@ test('execute passes with method params', async t => {
 
     await Promise.resolve<void>(onexecute({
         objectName: 'todo',
-        methodName: 'getParams', 
+        methodName: 'getParams',
         parameters: {
             pid: 456
         },
         properties: {},
-        configuration: {}
+        configuration: {},
+        schema: {}
     }));
 
     t.deepEqual(result, {
-        "id": 456
+        id: 456
     });
 
     t.pass();
@@ -168,7 +171,8 @@ test('execute passes', async t => {
         properties: {
             "id": 123
         },
-        configuration: {}
+        configuration: {},
+        schema: {}
     }));
 
     t.deepEqual(xhr, {
@@ -182,10 +186,10 @@ test('execute passes', async t => {
     });
 
     t.deepEqual(result, {
-        "id": 123,
-        "userId": 51,
-        "title": "Groceries",
-        "completed": false
+        id: 123,
+        userId: 51,
+        title: "Groceries",
+        completed: false
     });
 
     t.pass();
