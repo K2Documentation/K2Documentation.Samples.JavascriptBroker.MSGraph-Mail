@@ -66,11 +66,23 @@ test('describe returns the hardcoded instance', async t => {
 });
 
 test('execute fails with the wrong parameters', async t => {
-    let error = await t.throwsAsync(Promise.resolve<void>(onexecute('test1', 'unused', {}, {})));
+    let error = await t.throwsAsync(Promise.resolve<void>(onexecute({
+        objectName: 'test1',
+        methodName: 'unused',
+        parameters: {},
+        properties: {},
+        schema: {}
+    })));
     
     t.deepEqual(error.message, 'The object test1 is not supported.');
 
-    error = await t.throwsAsync(Promise.resolve<void>(onexecute('todo', 'test2', {}, {})));
+    error = await t.throwsAsync(Promise.resolve<void>(onexecute({
+        objectName: 'todo',
+        methodName: 'test2',
+        parameters: {},
+        properties: {},
+        schema: {}
+    })));
     
     t.deepEqual(error.message, 'The method test2 is not supported.');
 
@@ -85,13 +97,19 @@ test('execute passes with method params', async t => {
 
     mock('postResult', pr);
 
-    await Promise.resolve<void>(onexecute(
-        'todo', 'getParams', {
-            "pid": 456
-        }, {}, {}));
+    await Promise.resolve<void>(onexecute({
+        objectName: 'todo',
+        methodName: 'getParams',
+        parameters: {
+            pid: 456
+        },
+        properties: {},
+        configuration: {},
+        schema: {}
+    }));
 
     t.deepEqual(result, {
-        "id": 456
+        id: 456
     });
 
     t.pass();
@@ -146,10 +164,16 @@ test('execute passes', async t => {
 
     mock('postResult', pr);
 
-    await Promise.resolve<void>(onexecute(
-        'todo', 'get', {}, {
+    await Promise.resolve<void>(onexecute({
+        objectName: 'todo',
+        methodName: 'get',
+        parameters: {},
+        properties: {
             "id": 123
-        }, {}));
+        },
+        configuration: {},
+        schema: {}
+    }));
 
     t.deepEqual(xhr, {
         opened: {
@@ -162,10 +186,10 @@ test('execute passes', async t => {
     });
 
     t.deepEqual(result, {
-        "id": 123,
-        "userId": 51,
-        "title": "Groceries",
-        "completed": false
+        id: 123,
+        userId: 51,
+        title: "Groceries",
+        completed: false
     });
 
     t.pass();
