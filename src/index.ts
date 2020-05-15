@@ -35,14 +35,21 @@ ondescribe = async function (): Promise<void> {
                     "get": {
                         displayName: "Get Message",
                         type: "read",
-                        inputs: ["accessToken", "userPrincipalName", "id"],
-                        requiredInputs: ["id", "userPrincipalName"],
+                        parameters: {
+                            "userPrincipalName": { displayName: "userPrincipalName", type: "string" },
+                        },
+                        requiredParameters : ["userPrincipalName"],
+                        inputs: ["id"],
+                        requiredInputs: ["id"],
                         outputs: ["id", "subject", "from", "body"]
                     },
                     "list": {
                         displayName: "Get List",
                         type: "list",
-                        inputs: ["accessToken", "userPrincipalName"],
+                        parameters: {
+                            "userPrincipalName": { displayName: "userPrincipalName", type: "string" },
+                        },
+                        requiredParameters : ["userPrincipalName"],
                         outputs: ["id", "subject", "from", "body"]
                     }
                 }
@@ -87,14 +94,15 @@ function onexecuteMessageGet(parameters: SingleRecord, properties: SingleRecord)
             }
         };
 
-        var url = "https://graph.microsoft.com/v1.0/users/" + encodeURIComponent(parameters["userPrincipalName"]) + "/mailfolders%28%27Inbox%27%29/messages/" + encodeURIComponent(parameters["id"]);
+        if(typeof parameters["userPrincipalName"] !== "string") throw new Error("parameters[\"userPrincipalName\"] is not of type string");
+        if(typeof properties["id"] !== "number") throw new Error("properties[\"id\"] is not of type number");
+
+        var url = "https://graph.microsoft.com/v1.0/users/" + encodeURIComponent(parameters["userPrincipalName"]) 
+        + "/mailfolders%28%27Inbox%27%29/messages/" + encodeURIComponent(properties["id"]);
         xhr.open("GET", url);
 
         // Use Service Instance OAuth configuration
-        //xhr.withCredentials = true;
-
-        // Use Access Token
-        xhr.setRequestHeader("Authorization", "Bearer " + encodeURIComponent(parameters["accessToken"]));
+        xhr.withCredentials = true;
         xhr.send();
     });
 }
@@ -123,12 +131,14 @@ function onexecuteMessageList(parameters: SingleRecord, properties: SingleRecord
             }
         };
 
+        if(typeof parameters["userPrincipalName"] !== "string") throw new Error("parameters[\"userPrincipalName\"] is not of type string");
+
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
         var url = "https://graph.microsoft.com/v1.0/users/" + encodeURIComponent(parameters["userPrincipalName"]) + "/mailfolders%28%27Inbox%27%29/messages";
         xhr.open("GET", url);
 
-        // Use Access Tokens
-        xhr.setRequestHeader("Authorization", "Bearer " + encodeURIComponent(parameters["accessToken"]));
+        // Use Service Instance OAuth configuration
+        xhr.withCredentials = true;
         xhr.send();
     });
 }
