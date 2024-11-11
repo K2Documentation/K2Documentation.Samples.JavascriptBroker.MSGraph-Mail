@@ -1,7 +1,7 @@
 //This placeholder test.ts file is a subset from the K2 Broker Template project 
 //(https://github.com/K2Documentation/K2Documentation.Samples.JavascriptBroker.Template/blob/master/src/test.ts)
 //and is provided here just for reference. It must be modified with the proper objects and methods.
-import test from 'ava';
+import {test} from 'vitest';
 import '@k2oss/k2-broker-core/test-framework';
 import './index';
 
@@ -12,81 +12,87 @@ function mock(name: string, value: any)
 
 test('describe returns the hardcoded instance', async t => {
     let schema = null;
-    mock('postSchema', function(result: any) {
+    mock("postSchema", function (result: any) {
         schema = result;
     });
 
-    await Promise.resolve<void>(ondescribe());
-    
-    t.deepEqual(schema, {
+    await Promise.resolve<void>(
+        ondescribe({
+            configuration: {},
+        })
+    );
+
+    t.expect(schema).toStrictEqual({
         objects: {
-            "todo": {
+            todo: {
                 displayName: "TODO",
                 description: "Manages a TODO list",
                 properties: {
-                    "id": {
+                    id: {
                         displayName: "ID",
-                        type: "number"
+                        type: "number",
                     },
-                    "userId": {
+                    userId: {
                         displayName: "User ID",
-                        type: "number"
+                        type: "number",
                     },
-                    "title": {
+                    title: {
                         displayName: "Title",
-                        type: "string"
+                        type: "string",
                     },
-                    "completed": {
+                    completed: {
                         displayName: "Completed",
-                        type: "boolean"
-                    }
+                        type: "boolean",
+                    },
                 },
                 methods: {
-                    "get": {
+                    get: {
                         displayName: "Get TODO",
                         type: "read",
-                        inputs: [ "id" ],
-                        outputs: [ "id", "userId", "title", "completed" ]
+                        inputs: ["id"],
+                        outputs: ["id", "userId", "title", "completed"],
                     },
-                    "getParams": {
+                    getParams: {
                         displayName: "Get TODO",
                         type: "read",
                         parameters: {
-                            "pid" : { displayName: "param1", description: "Description Of Param 1", type: "number"} 
+                            pid: {
+                                displayName: "param1",
+                                description: "Description Of Param 1",
+                                type: "number",
+                            },
                         },
-                        requiredParameters: [ "pid" ],
-                        outputs: [ "id" ]
-                    }
-                }
-            }
-        }
+                        requiredParameters: ["pid"],
+                        outputs: ["id"],
+                    },
+                },
+            },
+        },
     });
-
-    t.pass();
 });
 
 test('execute fails with the wrong parameters', async t => {
-    let error = await t.throwsAsync(Promise.resolve<void>(onexecute({
-        objectName: 'test1',
-        methodName: 'unused',
-        parameters: {},
-        properties: {},
-        schema: {}
-    })));
-    
-    t.deepEqual(error.message, 'The object test1 is not supported.');
+    await t.expect(
+        onexecute({
+            objectName: "test1",
+            methodName: "unused",
+            parameters: {},
+            properties: {},
+            configuration: {},
+            schema: {},
+        })
+    ).rejects.toThrow("The object test1 is not supported.");
 
-    error = await t.throwsAsync(Promise.resolve<void>(onexecute({
-        objectName: 'todo',
-        methodName: 'test2',
-        parameters: {},
-        properties: {},
-        schema: {}
-    })));
-    
-    t.deepEqual(error.message, 'The method test2 is not supported.');
-
-    t.pass();
+    await t.expect(
+        onexecute({
+            objectName: "todo",
+            methodName: "test2",
+            parameters: {},
+            properties: {},
+            configuration: {},
+            schema: {},
+        })
+    ).rejects.toThrow("The method test2 is not supported.");
 });
 
 test('execute passes with method params', async t => {
@@ -95,24 +101,22 @@ test('execute passes with method params', async t => {
         result = r;
     }
 
-    mock('postResult', pr);
+    mock("postResult", pr);
 
-    await Promise.resolve<void>(onexecute({
-        objectName: 'todo',
-        methodName: 'getParams',
-        parameters: {
-            pid: 456
-        },
-        properties: {},
-        configuration: {},
-        schema: {}
-    }));
+    await Promise.resolve<void>(
+        onexecute({
+            objectName: "todo",
+            methodName: "getParams",
+            parameters: {
+                pid: 456,
+            },
+            properties: {},
+            configuration: {},
+            schema: {},
+        })
+    );
 
-    t.deepEqual(result, {
-        id: 456
-    });
-
-    t.pass();
+    t.expect(result).toStrictEqual({id:456})
 });
 
 test('execute passes', async t => {
@@ -175,22 +179,20 @@ test('execute passes', async t => {
         schema: {}
     }));
 
-    t.deepEqual(xhr, {
+    t.expect(xhr).toStrictEqual({
         opened: {
-            method: 'GET',
-            url: 'https://jsonplaceholder.typicode.com/todos/123'
+            method: "GET",
+            url: "https://jsonplaceholder.typicode.com/todos/123",
         },
         headers: {
-            'test': 'test value'
-        }
+            test: "test value",
+        },
     });
 
-    t.deepEqual(result, {
+    t.expect(result).toStrictEqual({
         id: 123,
         userId: 51,
         title: "Groceries",
-        completed: false
+        completed: false,
     });
-
-    t.pass();
 });

@@ -57,8 +57,9 @@ typings/
 # dotenv environment variables file
 .env
 
-# Visual Studio
+# Dev
 .vs
+.idea
 
 # Build Results
 dist/
