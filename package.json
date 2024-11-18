@@ -21,7 +21,7 @@
   "scripts": {
     "run-tests": "vitest --coverage --run",
     "test": "npm run build && npm run run-tests",
-    "build": "vite build && tsc && node post-process.cjs",
+    "build": "vite build && tsc",
     "update-deps": "pnpm i"
   },
   "nyc": {
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@k2oss/k2-broker-core": "1.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "@types/glob": "^8.1.0",
     "@vitest/coverage-istanbul": "^2.1.4",
     "glob": "^11.0.0",
