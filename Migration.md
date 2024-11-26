@@ -9,25 +9,25 @@ the use of `vite`.
 
 <!-- TOC -->
 * [Migration from Ava to Vitest](#migration-from-ava-to-vitest)
-  * [1. Installation](#1-installation)
-  * [2. Configuring Vitest](#2-configuring-vitest)
-  * [3. Syntax Differences](#3-syntax-differences)
-    * [Basic Test Structure](#basic-test-structure)
-      * [Ava](#ava)
-      * [Vitest](#vitest)
-    * [Assertions](#assertions)
-    * [Test Hooks](#test-hooks)
-    * [Example:](#example)
-      * [Ava](#ava-1)
-      * [Vitest](#vitest-1)
-  * [4. Async Tests](#4-async-tests)
-    * [Ava](#ava-2)
-    * [Vitest](#vitest-2)
-  * [5. Snapshot Testing](#5-snapshot-testing)
-    * [Vitest](#vitest-3)
-  * [6. Coverage](#6-coverage)
-  * [7. Running Tests](#7-running-tests)
-  * [8. Notes](#8-notes)
+    * [1. Installation](#1-installation)
+    * [2. Configuring Vitest](#2-configuring-vitest)
+    * [3. Syntax Differences](#3-syntax-differences)
+      * [Basic Test Structure](#basic-test-structure)
+        * [Ava](#ava)
+        * [Vitest](#vitest)
+      * [Assertions](#assertions)
+      * [Test Hooks](#test-hooks)
+      * [Example:](#example)
+        * [Ava](#ava-1)
+        * [Vitest](#vitest-1)
+    * [4. Async Tests](#4-async-tests)
+        * [Ava](#ava-2)
+        * [Vitest](#vitest-2)
+    * [5. Snapshot Testing](#5-snapshot-testing)
+        * [Vitest](#vitest-3)
+    * [6. Coverage](#6-coverage)
+    * [7. Running Tests](#7-running-tests)
+    * [8. Notes](#8-notes)
 <!-- TOC -->
 
 ### 1. Installation
@@ -184,8 +184,8 @@ so if you were using a separate library for it, you can replace it with Vitestâ€
 
 ```javascript
 test('snapshot test', () => {
-  const obj = {foo: 'bar'};
-  expect(obj).toMatchSnapshot();
+    const obj = {foo: 'bar'};
+    expect(obj).toMatchSnapshot();
 });
 ```
 
